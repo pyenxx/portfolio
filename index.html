@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>xxapfelsaft — Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- Devicons for language logos -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #0a0a0f;
+  --bg2:      #0f0f18;
+  --bg3:      #13131e;
+  --border:   rgba(255,255,255,0.07);
+  --border2:  rgba(255,255,255,0.12);
+  --text:     #e8e8f0;
+  --muted:    #6b6b80;
+  --accent:   #6c63ff;
+  --accent2:  #a78bfa;
+  --green:    #22c55e;
+  --card:     rgba(255,255,255,0.03);
+  --hover:    rgba(255,255,255,0.06);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Geist', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+/* ── Nav ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 0 40px;
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(10,10,15,0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid transparent;
+  transition: border-color .3s;
+}
+nav.scrolled { border-color: var(--border); }
+.nav-logo {
+  font-family: 'Geist Mono', monospace;
+  font-size: 14px; font-weight: 500;
+  color: var(--text); text-decoration: none;
+  letter-spacing: -.01em;
+}
+.nav-logo span { color: var(--accent2); }
+.nav-links { display: flex; gap: 8px; }
+.nav-links a {
+  font-size: 13px; color: var(--muted);
+  text-decoration: none; padding: 6px 14px;
+  border-radius: 6px; transition: color .2s, background .2s;
+}
+.nav-links a:hover { color: var(--text); background: var(--hover); }
+.nav-cta {
+  font-size: 13px; color: var(--text);
+  text-decoration: none; padding: 8px 18px;
+  background: var(--accent);
+  border-radius: 8px;
+  transition: opacity .2s, transform .2s;
+  font-weight: 500;
+}
+.nav-cta:hover { opacity: .85; transform: translateY(-1px); }
+
+/* ── Hero ── */
+#hero {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; text-align: center;
+  padding: 120px 40px 80px;
+  position: relative; overflow: hidden;
+}
+
+/* Gradient orbs */
+#hero::before {
+  content: '';
+  position: absolute;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(108,99,255,0.12) 0%, transparent 70%);
+  top: 10%; left: 50%; transform: translateX(-50%);
+  pointer-events: none;
+}
+#hero::after {
+  content: '';
+  position: absolute;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(167,139,250,0.08) 0%, transparent 70%);
+  bottom: 10%; right: 10%;
+  pointer-events: none;
+}
+
+.hero-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(108,99,255,0.12);
+  border: 1px solid rgba(108,99,255,0.3);
+  color: var(--accent2);
+  font-size: 12px; font-weight: 500;
+  padding: 6px 14px; border-radius: 100px;
+  margin-bottom: 32px; letter-spacing: .02em;
+  animation: fadeDown .5s ease both;
+}
+.hero-chip::before {
+  content: '';
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 50% { opacity: .4; } }
+
+.hero-h1 {
+  font-size: clamp(48px, 7vw, 96px);
+  font-weight: 700; line-height: 1.05;
+  letter-spacing: -.04em;
+  margin-bottom: 24px;
+  animation: fadeDown .5s .1s ease both;
+}
+.hero-h1 .grad {
+  background: linear-gradient(135deg, #fff 0%, var(--accent2) 60%, var(--accent) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-size: 17px; color: var(--muted); line-height: 1.7;
+  max-width: 500px; margin: 0 auto 48px;
+  animation: fadeDown .5s .2s ease both;
+}
+
+.hero-btns {
+  display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+  animation: fadeDown .5s .3s ease both;
+}
+.btn-primary {
+  font-size: 14px; font-weight: 500;
+  padding: 12px 28px; border-radius: 10px;
+  background: var(--accent); color: #fff;
+  text-decoration: none;
+  transition: opacity .2s, transform .2s, box-shadow .2s;
+  box-shadow: 0 4px 24px rgba(108,99,255,0.35);
+}
+.btn-primary:hover { opacity: .9; transform: translateY(-2px); box-shadow: 0 8px 32px rgba(108,99,255,0.45); }
+.btn-ghost {
+  font-size: 14px; font-weight: 500;
+  padding: 12px 28px; border-radius: 10px;
+  border: 1px solid var(--border2); color: var(--text);
+  text-decoration: none;
+  transition: border-color .2s, background .2s, transform .2s;
+}
+.btn-ghost:hover { border-color: var(--border2); background: var(--hover); transform: translateY(-2px); }
+
+/* Scroll indicator */
+.scroll-ind {
+  position: absolute; bottom: 40px;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  font-size: 11px; color: var(--muted); letter-spacing: .1em;
+  animation: fadeDown .5s .5s ease both;
+}
+.scroll-ind::after {
+  content: '';
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, var(--muted), transparent);
+}
+
+@keyframes fadeDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: none; } }
+
+/* ── Section layout ── */
+.section { padding: 100px 40px; max-width: 1100px; margin: 0 auto; }
+.section-full { padding: 100px 40px; }
+.section-full .section { padding: 0; }
+.sec-label {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 48px;
+}
+.sec-label-line { width: 24px; height: 2px; background: var(--accent); border-radius: 1px; }
+.sec-label-text { font-size: 12px; font-weight: 600; color: var(--accent2); letter-spacing: .12em; text-transform: uppercase; }
+.sec-title { font-size: clamp(28px, 4vw, 40px); font-weight: 700; letter-spacing: -.03em; margin-bottom: 16px; }
+.sec-sub { font-size: 15px; color: var(--muted); line-height: 1.7; max-width: 480px; margin-bottom: 56px; }
+
+/* ── Skills ── */
+.sk-section { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.sk-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 12px;
+}
+.sk-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px 16px;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  transition: border-color .2s, transform .2s, background .2s;
+  position: relative; overflow: hidden;
+}
+.sk-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(108,99,255,0.08), transparent 70%);
+  opacity: 0; transition: opacity .3s;
+}
+.sk-card:hover { border-color: rgba(108,99,255,0.4); transform: translateY(-4px); background: rgba(108,99,255,0.04); }
+.sk-card:hover::before { opacity: 1; }
+.sk-icon { font-size: 40px; line-height: 1; }
+.sk-name { font-size: 12px; font-weight: 500; color: var(--muted); letter-spacing: .02em; }
+.sk-bar-wrap { width: 100%; height: 3px; background: rgba(255,255,255,0.06); border-radius: 2px; }
+.sk-bar-fill { height: 100%; border-radius: 2px; width: 0; transition: width 1s cubic-bezier(.4,0,.2,1); }
+
+/* Language-specific icon colors via devicon */
+.devicon-kotlin-plain { color: #7F52FF; }
+.devicon-java-plain { color: #ED8B00; }
+.devicon-python-plain { color: #3776AB; }
+.devicon-javascript-plain { color: #F7DF1E; }
+.devicon-php-plain { color: #777BB4; }
+.devicon-css3-plain { color: #1572B6; }
+.devicon-typescript-plain { color: #3178C6; }
+.devicon-csharp-plain { color: #239120; }
+
+/* ── Projects ── */
+.pj-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+.pj-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  display: flex; flex-direction: column; gap: 16px;
+  transition: border-color .25s, transform .25s, box-shadow .25s;
+  cursor: default;
+}
+.pj-card:hover {
+  border-color: var(--border2);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 48px rgba(0,0,0,0.4);
+}
+.pj-top { display: flex; align-items: flex-start; justify-content: space-between; }
+.pj-icon {
+  width: 44px; height: 44px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+}
+.pj-arrow {
+  width: 32px; height: 32px; border-radius: 8px;
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; color: var(--muted);
+  transition: border-color .2s, color .2s, transform .2s;
+  text-decoration: none;
+}
+.pj-card:hover .pj-arrow { border-color: var(--accent2); color: var(--accent2); transform: translate(2px,-2px); }
+.pj-name { font-size: 17px; font-weight: 600; letter-spacing: -.02em; }
+.pj-desc { font-size: 13px; color: var(--muted); line-height: 1.75; flex: 1; }
+.pj-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.pj-tag {
+  font-size: 11px; font-weight: 500;
+  padding: 4px 10px; border-radius: 6px;
+  background: rgba(255,255,255,0.05);
+  color: var(--muted); border: 1px solid var(--border);
+  letter-spacing: .02em;
+}
+
+/* ── About ── */
+.ab-section { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.ab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.ab-text p { font-size: 15px; color: var(--muted); line-height: 1.85; }
+.ab-text p + p { margin-top: 16px; }
+.ab-text strong { color: var(--text); font-weight: 500; }
+.ab-cards { display: flex; flex-direction: column; gap: 12px; }
+.ab-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.ab-card-label { font-size: 12px; color: var(--muted); font-weight: 500; letter-spacing: .04em; }
+.ab-card-val { font-size: 14px; font-weight: 600; color: var(--text); }
+.ab-card-val.green { color: var(--green); }
+
+/* ── Contact ── */
+.ct-wrap {
+  background: linear-gradient(135deg, rgba(108,99,255,0.1) 0%, rgba(167,139,250,0.05) 100%);
+  border: 1px solid rgba(108,99,255,0.2);
+  border-radius: 24px;
+  padding: 64px;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.ct-wrap::before {
+  content: '';
+  position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(108,99,255,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+.ct-title { font-size: clamp(32px, 4vw, 52px); font-weight: 700; letter-spacing: -.03em; margin-bottom: 16px; }
+.ct-sub { font-size: 15px; color: var(--muted); margin-bottom: 40px; line-height: 1.7; }
+.ct-links { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.ct-link {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 500;
+  padding: 12px 24px; border-radius: 10px;
+  border: 1px solid var(--border2);
+  color: var(--text); text-decoration: none;
+  background: rgba(255,255,255,0.04);
+  transition: border-color .2s, background .2s, transform .2s;
+}
+.ct-link:hover { border-color: var(--accent2); background: rgba(108,99,255,0.1); transform: translateY(-2px); }
+.ct-link i { font-size: 16px; }
+
+/* ── Footer ── */
+footer {
+  padding: 32px 40px;
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 12px; color: var(--muted);
+}
+footer a { color: var(--muted); text-decoration: none; transition: color .2s; }
+footer a:hover { color: var(--text); }
+
+/* ── Reveal ── */
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity .65s ease, transform .65s ease; }
+.reveal.in { opacity: 1; transform: none; }
+
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  #hero { padding: 100px 24px 80px; }
+  .section { padding: 72px 24px; }
+  .section-full { padding: 72px 24px; }
+  .ab-grid { grid-template-columns: 1fr; gap: 40px; }
+  .ct-wrap { padding: 40px 24px; }
+  footer { flex-direction: column; gap: 8px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav id="nav">
+  <a class="nav-logo" href="#">xx<span>apfelsaft</span></a>
+  <div class="nav-links">
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#about">About</a>
+  </div>
+  <a href="#contact" class="nav-cta">Contact</a>
+</nav>
+
+<!-- Hero -->
+<section id="hero">
+  <div class="hero-chip">Available for work</div>
+  <h1 class="hero-h1"><span class="grad">xxapfelsaft</span></h1>
+  <p class="hero-sub">Self-taught developer. I build Minecraft mods, web tools and small software projects — mostly things I wanted to exist.</p>
+  <div class="hero-btns">
+    <a href="#projects" class="btn-primary">View My Work</a>
+    <a href="#contact" class="btn-ghost">Get in Touch</a>
+  </div>
+  <div class="scroll-ind">scroll</div>
+</section>
+
+<!-- Skills -->
+<div class="sk-section section-full">
+  <div class="section">
+    <div class="sec-label reveal"><div class="sec-label-line"></div><span class="sec-label-text">Skills</span></div>
+    <h2 class="sec-title reveal">Languages & Technologies</h2>
+    <p class="sec-sub reveal">Languages I work with regularly — from Minecraft mod development to web backends.</p>
+    <div class="sk-grid">
+
+      <div class="sk-card reveal" style="--c:#7F52FF">
+        <i class="devicon-kotlin-plain sk-icon"></i>
+        <span class="sk-name">Kotlin</span>
+        <div class="sk-bar-wrap"><div class="sk-bar-fill" data-w="85" style="background:#7F52FF"></div></div>
+      </div>
+
+      <div class="sk-card reveal" style="--c:#ED8B00">
+        <i class="devicon-java-plain sk-icon"></i>
+        <span class="sk-name">Java</span>
+        <div class="sk-bar-wrap"><div class="sk-bar-fill" data-w="80" style="background:#ED8B00"></div></div>
+      </div>
+
+      <div class="sk-card reveal" style="--c:#3776AB">
+        <i class="devicon-python-plain sk-icon"></i>
+        <span class="sk-name">Python</span>
+        <div class="sk-bar-wrap"><div class="sk-bar-fill" data-w="70" style="background:#3776AB"></div></div>
+      </div>
+
+      <div class="sk-card reveal" style="--c:#F7DF1E">
+        <i class="devicon-javascript-plain sk-icon"></i>
+        <span class="sk-name">JavaScript</span>
+        <div class="sk-bar-wrap"><div class="sk-bar-fill" data-w="65" style="background:#F7DF1E"></div></div>
+      </div>
+
+      <div class="sk-card reveal" style="--c:#777BB4">
+        <i class="devicon-php-plain sk-icon"></i>
+        <span class="sk-name">PHP</span>
+        <div class="sk-bar-wrap"><div class="sk-bar-fill" data-w="60" style="background:#777BB4"></div></div>
+      </div>
+
+      <div class="sk-card reveal" style="--c:#1572B6">
+        <i class="devicon-css3-plain sk-icon"></i>
+        <span class="sk-name">CSS</span>
+        <div class="sk-bar-wrap"><div class="sk-bar-fill" data-w="65" style="background:#1572B6"></div></div>
+      </div>
+
+      <div class="sk-card reveal" style="--c:#3178C6">
+        <i class="devicon-typescript-plain sk-icon"></i>
+        <span class="sk-name">TypeScript</span>
+        <div class="sk-bar-wrap"><div class="sk-bar-fill" data-w="35" style="background:#3178C6"></div></div>
+      </div>
+
+      <div class="sk-card reveal" style="--c:#239120">
+        <i class="devicon-csharp-plain sk-icon"></i>
+        <span class="sk-name">C#</span>
+        <div class="sk-bar-wrap"><div class="sk-bar-fill" data-w="20" style="background:#239120"></div></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Projects -->
+<div class="section-full" style="background:var(--bg)">
+  <div class="section">
+    <div class="sec-label reveal"><div class="sec-label-line"></div><span class="sec-label-text">Projects</span></div>
+    <h2 class="sec-title reveal">Things I've Built</h2>
+    <p class="sec-sub reveal">A mix of Minecraft modding, web projects and automation tools.</p>
+    <div class="pj-grid">
+
+      <div class="pj-card reveal">
+        <div class="pj-top">
+          <div class="pj-icon" style="background:rgba(127,82,255,0.15)">🍎</div>
+          <a href="#" class="pj-arrow">↗</a>
+        </div>
+        <div class="pj-name">ApfelClient</div>
+        <div class="pj-desc">Custom Fabric Minecraft client mod built from scratch. Features a full ClickGUI, HUD editor, 15+ gameplay modules, cosmetics system and Discord RPC.</div>
+        <div class="pj-tags">
+          <span class="pj-tag">Kotlin</span>
+          <span class="pj-tag">Java</span>
+          <span class="pj-tag">Fabric</span>
+          <span class="pj-tag">Minecraft 1.21</span>
+        </div>
+      </div>
+
+      <div class="pj-card reveal">
+        <div class="pj-top">
+          <div class="pj-icon" style="background:rgba(34,197,94,0.15)">🌐</div>
+          <a href="#" class="pj-arrow">↗</a>
+        </div>
+        <div class="pj-name">Rfit Solutions</div>
+        <div class="pj-desc">Web-based solutions platform delivering tools and services. Built with modern web technologies for real-world use cases.</div>
+        <div class="pj-tags">
+          <span class="pj-tag">JavaScript</span>
+          <span class="pj-tag">PHP</span>
+          <span class="pj-tag">CSS</span>
+        </div>
+      </div>
+
+      <div class="pj-card reveal">
+        <div class="pj-top">
+          <div class="pj-icon" style="background:rgba(249,115,22,0.15)">⛏️</div>
+          <a href="#" class="pj-arrow">↗</a>
+        </div>
+        <div class="pj-name">PxrlyJuice</div>
+        <div class="pj-desc">Custom Minecraft server with unique gameplay, custom-built Java plugins and a community. Managed and developed fully end-to-end.</div>
+        <div class="pj-tags">
+          <span class="pj-tag">Java</span>
+          <span class="pj-tag">Kotlin</span>
+          <span class="pj-tag">Server</span>
+        </div>
+      </div>
+
+      <div class="pj-card reveal">
+        <div class="pj-top">
+          <div class="pj-icon" style="background:rgba(59,130,246,0.15)">🐍</div>
+          <a href="#" class="pj-arrow">↗</a>
+        </div>
+        <div class="pj-name">Python Scripts</div>
+        <div class="pj-desc">Collection of automation tools, bots, scrapers and utility scripts. Small projects that solve real problems fast.</div>
+        <div class="pj-tags">
+          <span class="pj-tag">Python</span>
+          <span class="pj-tag">Automation</span>
+        </div>
+      </div>
+
+      <div class="pj-card reveal">
+        <div class="pj-top">
+          <div class="pj-icon" style="background:rgba(167,139,250,0.15)">💼</div>
+          <a href="#" class="pj-arrow">↗</a>
+        </div>
+        <div class="pj-name">This Portfolio</div>
+        <div class="pj-desc">Hand-coded from scratch — no frameworks. Pure HTML, CSS and vanilla JS with smooth animations and language icons.</div>
+        <div class="pj-tags">
+          <span class="pj-tag">HTML</span>
+          <span class="pj-tag">CSS</span>
+          <span class="pj-tag">JavaScript</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- About -->
+<div id="about" class="ab-section section-full">
+  <div class="section">
+    <div class="sec-label reveal"><div class="sec-label-line"></div><span class="sec-label-text">About</span></div>
+    <div class="ab-grid">
+      <div class="ab-text reveal">
+        <h2 class="sec-title" style="margin-bottom:24px">A bit about me</h2>
+        <p>I'm <strong>xxapfelsaft</strong> — a self-taught developer who got into coding through Minecraft. What started as wanting to add a zoom feature turned into building a full client mod with dozens of modules.</p>
+        <p>I work across the stack: from <strong>Java Mixin bytecode injection</strong> in Kotlin to web backends in PHP and JavaScript. I don't always know what I'm doing at first — but I figure it out.</p>
+        <p>Most of my projects exist because I wanted them to. That's the whole philosophy — <strong>build what you need.</strong></p>
+      </div>
+      <div class="ab-cards reveal">
+        <div class="ab-card">
+          <span class="ab-card-label">Status</span>
+          <span class="ab-card-val green">Available</span>
+        </div>
+        <div class="ab-card">
+          <span class="ab-card-label">Primary Language</span>
+          <span class="ab-card-val">Kotlin / Java</span>
+        </div>
+        <div class="ab-card">
+          <span class="ab-card-label">Specialty</span>
+          <span class="ab-card-val">MC Modding</span>
+        </div>
+        <div class="ab-card">
+          <span class="ab-card-label">Projects Built</span>
+          <span class="ab-card-val">5+</span>
+        </div>
+        <div class="ab-card">
+          <span class="ab-card-label">Learning Style</span>
+          <span class="ab-card-val">Self-taught</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Contact -->
+<div id="contact" class="section-full" style="background:var(--bg)">
+  <div class="section">
+    <div class="ct-wrap reveal">
+      <h2 class="ct-title">Let's build something.</h2>
+      <p class="ct-sub">Open to collaborations, commissions and interesting projects.<br>Drop a message — I'll get back to you.</p>
+      <div class="ct-links">
+        <a href="https://github.com/xxapfelsaft" class="ct-link" target="_blank">
+          <i class="devicon-github-original"></i> GitHub
+        </a>
+        <a href="#" class="ct-link">
+          <svg width="16" height="16" viewBox="0 0 127.14 96.36" fill="#5865F2"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/></svg>
+          Discord
+        </a>
+        <a href="mailto:hello@xxapfelsaft.dev" class="ct-link">
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          Email
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <span>© 2026 xxapfelsaft</span>
+  <span>Built by hand — no frameworks</span>
+</footer>
+
+<script>
+// Nav scroll
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', scrollY > 20);
+});
+
+// Skill bars on scroll
+const skObs = new IntersectionObserver(es => {
+  es.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.sk-bar-fill').forEach(b => {
+        setTimeout(() => b.style.width = b.dataset.w + '%', 100);
+      });
+      skObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.2 });
+document.querySelectorAll('.sk-grid').forEach(g => skObs.observe(g));
+
+// Reveal on scroll
+const obs = new IntersectionObserver(es => {
+  es.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('in'), i * 70);
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
